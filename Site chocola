@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willi Show - Chocolates Artesanais</title>
+    <style>
+        :root {
+            --cor-principal: #98FB98; /* Verde claro */
+            --cor-secundaria: #FFB6C1; /* Rosa claro */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header {
+            background-color: var(--cor-principal);
+            padding: 20px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        nav {
+            background-color: var(--cor-secundaria);
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .banner {
+            width: 100%;
+            height: 400px;
+            background-image: url('chocolate-banner.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .produtos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .produto {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .produto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .produto img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+        }
+
+        .produto h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .preco {
+            color: #2c5282;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .btn-comprar {
+            background-color: var(--cor-secundaria);
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-comprar:hover {
+            background-color: var(--cor-principal);
+        }
+
+        footer {
+            background-color: var(--cor-principal);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="logo">Willi Show</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner"></div>
+
+    <main class="produtos">
+        <div class="produto">
+            <img src="imagens/CHOCOLA.jpg" alt="Chocolate Belga">
+            <h3>Chocolate Belga Premium</h3>
+            <p>Delicioso chocolate belga com 70% cacau</p>
+            <p class="preco">R$ 29,90</p>
+            <button class="btn-comprar">Comprar</button>
+        </div>
+
+        <div class="produto">
+            <img src="chocolate2.jpg" alt="Trufas Artesanais">
+            <h3>Trufas Artesanais</h3>
+            <p>Caixa com 12 trufas sortidas</p>
+            <p class="preco">R$ 45,00</p>
+            <button class="btn-comprar">Comprar</button>
+        </div>
+
+        <div class="produto">
+            <img src="chocolate3.jpg" alt="Bombons Recheados">
+            <h3>Bombons Recheados</h3>
+            <p>Seleção especial de bombons gourmet</p>
+            <p class="preco">R$ 38,50</p>
+            <button class="btn-comprar">Comprar</button>
+        </div>
+
+        <div class="produto">
+            <img src="chocolate4.jpg" alt="Barras Especiais">
+            <h3>Barras Especiais</h3>
+            <p>Chocolate com amendoim e caramelo</p>
+            <p class="preco">R$ 25,90</p>
+            <button class="btn-comprar">Comprar</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Willi Show - Todos os direitos reservados</p>
+        <p>Contato: contato@willishow.com.br | Tel: (11) 99999-9999</p>
+    </footer>
+</body>
+<script>
+    // Array para armazenar itens do carrinho
+    let carrinhoItens = [];
+
+    // Adicionar eventos aos botões de compra
+    document.querySelectorAll('.btn-comprar').forEach(botao => {
+        botao.addEventListener('click', function() {
+            const produto = this.parentElement;
+            const item = {
+                nome: produto.querySelector('h3').textContent,
+                preco: produto.querySelector('.preco').textContent,
+                imagem: produto.querySelector('img').src
+            };
+            carrinhoItens.push(item);
+            atualizarCarrinho();
+            alert('Produto adicionado ao carrinho!');
+        });
+    });
+
+    function atualizarCarrinho() {
+        const contador = document.querySelector('.carrinho-contador');
+        contador.textContent = carrinhoItens.length;
+    }
+
+    function abrirCarrinho() {
+        if (carrinhoItens.length === 0) {
+            alert('Seu carrinho está vazio!');
+            return;
+        }
+
+        let total = 0;
+        let listaItens = 'Itens no carrinho:\n\n';
+        carrinhoItens.forEach(item => {
+            listaItens += `${item.nome} - ${item.preco}\n`;
+            total += parseFloat(item.preco.replace('R$ ', '').replace(',', '.'));
+        });
+
+        if (confirm(`${listaItens}\nTotal: R$ ${total.toFixed(2)}\n\nDeseja finalizar a compra?`)) {
+            const formaPagamento = prompt('Escolha a forma de pagamento:\n1 - Cartão de Crédito\n2 - PIX\n3 - Boleto');
+            alert('Compra finalizada com sucesso!');
+            carrinhoItens = [];
+            atualizarCarrinho();
+        }
+    }
+</script>
+
+<style>
+    .header-buttons {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .carrinho-btn, .login-btn {
+        padding: 10px 20px;
+        margin-left: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .carrinho-contador {
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+</style>
+
+<div class="header-buttons">
+    <button class="login-btn" onclick="alert('Área de login em desenvolvimento')">Login</button>
+    <button class="carrinho-btn" onclick="abrirCarrinho()">
+        🛒 Carrinho
+        <span class="carrinho-contador">0</span>
+    </button>
+</div>
+<style>
+    /* Estilo geral dos botões */
+    .header-buttons {
+        background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+        backdrop-filter: blur(10px);
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    }
+
+    .carrinho-btn, .login-btn {
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .carrinho-btn:hover, .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        background: linear-gradient(45deg, #45a049, #4CAF50);
+    }
+
+    .carrinho-contador {
+        background: linear-gradient(45deg, #ff4444, #cc0000);
+        box-shadow: 0 2px 5px rgba(204, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    /* Estilo para modais e alertas personalizados */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #ffffff, #f5f5f5);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        z-index: 1001;
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .modal-header {
+        font-size: 20px;
+        color: #333;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4CAF50;
+    }
+
+    .modal-content {
+        margin: 15px 0;
+        line-height: 1.6;
+    }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .modal-button {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .modal-button.confirm {
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        color: white;
+    }
+
+    .modal-button.cancel {
+        background: linear-gradient(45deg, #ff4444, #cc0000);
+        color: white;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 1000;
+    }
+</style>
+
+<script>
+    function mostrarModal(titulo, mensagem, tipo) {
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-header">${titulo}</div>
+            <div class="modal-content">${mensagem}</div>
+            <div class="modal-buttons">
+                ${tipo === 'confirm' ? 
+                    `<button class="modal-button cancel" onclick="fecharModal()">Cancelar</button>
+                     <button class="modal-button confirm" onclick="confirmarModal()">Confirmar</button>` :
+                    `<button class="modal-button confirm" onclick="fecharModal()">OK</button>`}
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(modal);
+        
+        overlay.style.display = 'block';
+        modal.style.display = 'block';
+    }
+
+    function fecharModal() {
+        const modal = document.querySelector('.modal');
+        const overlay = document.querySelector('.overlay');
+        if (modal && overlay) {
+            modal.remove();
+            overlay.remove();
+        }
+    }
+
+    function confirmarModal() {
+        // Lógica de confirmação aqui
+        fecharModal();
+    }
+
+    // Sobrescrevendo funções existentes para usar o novo modal
+    function abrirCarrinho() {
+        if (carrinhoItens.length === 0) {
+            mostrarModal('Carrinho', 'Seu carrinho está vazio!', 'alert');
+            return;
+        }
+        
+        let listaItens = '';
+        let total = 0;
+        
+        carrinhoItens.forEach(item => {
+            listaItens += `<div style="margin: 10px 0">${item.nome} - ${item.preco}</div>`;
+            total += parseFloat(item.preco.replace('R$ ', '').replace(',', '.'));
+        });
+
+        mostrarModal('Seu Carrinho', 
+            `${listaItens}<div style="margin-top: 15px; font-weight: bold">Total: R$ ${total.toFixed(2)}</div>`, 
+            'confirm');
+    }
+</script>
+</html>
+<style>
+.produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.produto {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.produto img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+</style>
+
+<div class="produtos">
+    <div class="produto">
+        <img src="https://images.unsplash.com/photo-1511381939415-e44015466834" alt="Chocolate ao Leite">
+        <h3>Chocolate ao Leite</h3>
+        <p>R$ 12,90</p>
+    </div>
+    
+    <div class="produto">
+        <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52" alt="Chocolate Amargo">
+        <h3>Chocolate Amargo</h3>
+        <p>R$ 14,90</p>
+    </div>
+    
+    <div class="produto">
+        <img src="https://images.unsplash.com/photo-1582176604856-e824b4736522" alt="Trufas">
+        <h3>Trufas Especiais</h3>
+        <p>R$ 18,90</p>
+    </div>
+    
+    <div class="produto">
+        <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b" alt="Bombons">
+        <h3>Bombons Sortidos</h3>
+        <p>R$ 25,90</p>
+    </div>
+</div>
+<style>
+.botao-comprar {
+    background: linear-gradient(45deg, #8B4513, #D2691E);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.botao-comprar:hover {
+    transform: scale(1.05);
+}
+
+.aviso {
+    background: linear-gradient(45deg, #8B4513, #D2691E);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
+
+<script>
+function comprar(nomeProduto) {
+    const quantidade = prompt(`Quantas unidades de ${nomeProduto} você deseja comprar?`);
+    
+    if (quantidade && !isNaN(quantidade) && quantidade > 0) {
+        const aviso = document.createElement('div');
+        aviso.className = 'aviso';
+        aviso.textContent = `${quantidade} unidade(s) de ${nomeProduto} adicionado(s) ao carrinho!`;
+        
+        const produto = event.target.closest('.produto');
+        produto.appendChild(aviso);
+        
+        aviso.style.display = 'block';
+        
+        setTimeout(() => {
+            aviso.style.display = 'none';
+            setTimeout(() => {
+                aviso.remove();
+            }, 500);
+        }, 3000);
+    }
+}
+
+// Adiciona botões de comprar a todos os produtos
+document.querySelectorAll('.produto').forEach(produto => {
+    const nomeProduto = produto.querySelector('h3').textContent;
+    const botao = document.createElement('button');
+    botao.className = 'botao-comprar';
+    botao.textContent = 'Comprar';
+    botao.onclick = () => comprar(nomeProduto);
+    produto.appendChild(botao);
+});
+</script>
+
